@@ -5,8 +5,21 @@ const tableDancerParams = {
 
 window.addEventListener('load', initDancer);
 
+
+async function addMessageListeners() {
+    // define message receiver from params panel
+    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+        if (request.command === "updateView") {
+            readOldDancerParamsFromStorage();
+        }
+        sendResponse(true);
+    });
+}
+
+
 async function initDancer(event) {
     await readOldDancerParamsFromStorage();
+    await addMessageListeners();
 }
 
 
