@@ -19,11 +19,13 @@
     }
   },
   "permissions": [
+    "storage",
     "activeTab"
   ],
   "content_scripts": [
     {
       "js": ["scripts/tableDancer.js"],
+      "css": ["css/options.css"],
       "matches": [
         "<all_urls>"
       ]
