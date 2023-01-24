@@ -42,13 +42,12 @@ async function readOldDancerParamsFromStorage() {
 
 
 function markupBorderTables() {
+    let tables = document.getElementsByTagName('table');
     if (tableDancerParams['selectTable'] === true) {
-        let tables = document.getElementsByTagName('table');
         for (const tableElement of tables) {
             tableElement.classList.add('border_select');
         }
     } else {
-        let tables = document.getElementsByTagName('table');
         for (const tableElement of tables) {
             tableElement.classList.remove('border_select');
         }
@@ -56,11 +55,11 @@ function markupBorderTables() {
 }
 
 
-function addAllTableBorderHoverListener(){
+function addAllTableBorderHoverListener() {
     let tables = document.getElementsByTagName('table');
-        for (const tableElement of tables) {
-            addTableListeners(tableElement);
-        }
+    for (const tableElement of tables) {
+        addTableListeners(tableElement);
+    }
 }
 
 
