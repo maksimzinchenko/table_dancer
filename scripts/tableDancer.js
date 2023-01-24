@@ -7,7 +7,6 @@ window.addEventListener('load', initDancer);
 
 async function initDancer(event) {
     await readOldDancerParamsFromStorage();
-    startDancer(event);
 }
 
 
@@ -23,20 +22,28 @@ async function readOldDancerParamsFromStorage() {
                 }
             );
         } else {
-            tableDancerParams['enableScan'] = result['tableDancerParams']['enableScan'];
+            tableDancerParams['selectTable'] = result['tableDancerParams']['selectTable'];
             console.log('Table dancer old params were found in storage. Loaded');
         }
+        startDancer();
     });
 }
 
 
 
-function startDancer(event) {
-    let tables = document.getElementsByTagName('table');
-    for (const tableElement of tables) {
-        markTables(tableElement);
-        addTableListeners(tableElement);
+function startDancer() {
+    if (tableDancerParams['selectTable'] === true) {
+        let tables = document.getElementsByTagName('table');
+        for (const tableElement of tables) {
+            tableElement.classList.add('border_select');
+        }
+    } else {
+        let tables = document.getElementsByTagName('table');
+        for (const tableElement of tables) {
+            tableElement.classList.remove('border_select');
+        }
     }
+    //addTableListeners(tableElement);
 }
 
 function addTableListeners(tableElement) {
