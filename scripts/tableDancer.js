@@ -2,12 +2,9 @@ const tableDancerParams = {
     'selectTable': true
 }
 
-
 window.addEventListener('load', initDancer);
 
-
 async function addMessageListeners() {
-    // define message receiver from params panel
     chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         if (request.command === "updateView") {
             readOldDancerParamsFromStorage();
@@ -20,6 +17,7 @@ async function addMessageListeners() {
 async function initDancer(event) {
     await readOldDancerParamsFromStorage();
     await addMessageListeners();
+    addAllTableBorderHoverListener();
 }
 
 
@@ -38,13 +36,12 @@ async function readOldDancerParamsFromStorage() {
             tableDancerParams['selectTable'] = result['tableDancerParams']['selectTable'];
             console.log('Table dancer old params were found in storage. Loaded');
         }
-        startDancer();
+        markupBorderTables();
     });
 }
 
 
-
-function startDancer() {
+function markupBorderTables() {
     if (tableDancerParams['selectTable'] === true) {
         let tables = document.getElementsByTagName('table');
         for (const tableElement of tables) {
@@ -56,27 +53,33 @@ function startDancer() {
             tableElement.classList.remove('border_select');
         }
     }
-    //addTableListeners(tableElement);
 }
+
+
+function addAllTableBorderHoverListener(){
+    let tables = document.getElementsByTagName('table');
+        for (const tableElement of tables) {
+            addTableListeners(tableElement);
+        }
+}
+
 
 function addTableListeners(tableElement) {
     tableElement.addEventListener('mouseover', fillSelection);
     tableElement.addEventListener('mouseout', emptySelection);
 }
 
-function markTables(tableElement) {
-    tableElement.style.border = "4px dashed red";
-}
+
 
 function fillSelection(event) {
     if (event.target.nodeName == 'TABLE') {
-        event.target.style.border = "8px solid blue";
+        event.target.classList.add('hover_select');
     }
 }
 
 function emptySelection(event) {
-    if (event.target.nodeName == 'TABLE') {
-        event.target.style.border = "4px dashed red";
+    if (event.target.nodeName === 'TABLE') {
+        event.target.classList.remove('hover_select');
     }
 }
 
